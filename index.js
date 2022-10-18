@@ -1,5 +1,12 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
+const multer = require("multer");
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+const upload = multer();
 
 // First API - Hello World
 app.get("/hello", (req, res) => {
@@ -16,6 +23,13 @@ app.get("/user/:name", (req, res) => {
 app.get("/person", (req, res) => {
   const name = req.query.name;
   res.send(`Hello ${name}`);
+});
+
+// Fourth API - Post
+app.post("/login", upload.none(), (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  res.send(`Username: ${username} and Password: ${password}`);
 });
 
 app.listen(3000, () => console.log("Listening on port 3000"));
