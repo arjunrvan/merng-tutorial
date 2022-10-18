@@ -1,0 +1,23 @@
+{
+  "name": "merng-tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arjunrvan/merng-tutorial.git"
+  },
+  "author": "Arjun Rvan <arjunrvan@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arjunrvan/merng-tutorial/issues"
+  },
+  "homepage": "https://github.com/arjunrvan/merng-tutorial#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  }
+}
