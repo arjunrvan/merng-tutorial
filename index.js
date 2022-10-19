@@ -2,34 +2,58 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const multer = require("multer");
+const mongoose = require("mongoose");
+const User = require("./src/models/user");
+require("dotenv").config();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const upload = multer();
 
-// First API - Hello World
-app.get("/hello", (req, res) => {
-  res.send("Hello World");
+app.post("/createUser", upload.none(), async (req, res) => {
+  try {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const newUser = new User({
+      email,
+      password,
+    });
+
+    const returnData = await newUser.save();
+    res.send(returnData);
+  } catch (err) {
+    console.error(err);
+    throw new Error(err);
+  }
 });
 
-// Second API - Get with params
-app.get("/user/:name", (req, res) => {
-  const name = req.params.name;
-  res.send(`Hello ${name}`);
+app.get("/getUsers", async (req, res) => {
+  try {
+    const user = await User.find();
+    res.send(user);
+  } catch (err) {
+    console.error(err);
+    throw new Error(err);
+  }
 });
 
-// Third API - Get with query
-app.get("/person", (req, res) => {
-  const name = req.query.name;
-  res.send(`Hello ${name}`);
+app.get("/getUser/:id", async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id });
+    res.send(user);
+  } catch (err) {
+    console.error(err);
+    throw new Error(err);
+  }
 });
 
-// Fourth API - Post
-app.post("/login", upload.none(), (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  res.send(`Username: ${username} and Password: ${password}`);
-});
-
-app.listen(3000, () => console.log("Listening on port 3000"));
+mongoose
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+  .then(() => {
+    console.log("MongoDB Connected");
+    return app.listen(process.env.PORT, () =>
+      console.log(`Server connected on port ${process.env.PORT}`)
+    );
+  });
