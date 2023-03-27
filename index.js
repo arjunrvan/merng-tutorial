@@ -1,12 +1,9 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const multer = require("multer");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-const upload = multer();
 
 // First API - Hello World
 app.get("/hello", (req, res) => {
@@ -26,7 +23,7 @@ app.get("/person", (req, res) => {
 });
 
 // Fourth API - Post
-app.post("/login", upload.none(), (req, res) => {
+app.post("/login", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   res.send(`Username: ${username} and Password: ${password}`);
