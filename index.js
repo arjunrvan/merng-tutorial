@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const multer = require("multer");
 const mongoose = require("mongoose");
 const User = require("./src/models/user");
 require("dotenv").config();
@@ -9,9 +8,7 @@ require("dotenv").config();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const upload = multer();
-
-app.post("/createUser", upload.none(), async (req, res) => {
+app.post("/createUser", async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
